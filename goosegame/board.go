@@ -13,7 +13,7 @@ func NewBoard() *Board {
 type Board struct {
 	players     []*Player
 	winPosition int
-	ended       bool
+	Ended       bool
 }
 
 func (b *Board) AddPlayer (name string) error {
@@ -40,7 +40,7 @@ func (b *Board) Players() []Player {
 func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
 	player := b.getPlayer(name)
 
-	if b.ended {
+	if b.Ended {
 		return player.GetPosition(), player.GetPosition()
 	}
 
@@ -73,5 +73,5 @@ func (b *Board) getPlayer(playerName string) *Player {
 }
 
 func (b *Board) endGame() {
-	b.ended = true
+	b.Ended = true
 }
