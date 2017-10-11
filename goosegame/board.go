@@ -17,7 +17,7 @@ type Board struct {
 func (b *Board) AddPlayer (name string) error {
 	player := NewPlayer(name)
 
-	if b.playerExists(player) {
+	if b.getPlayer(player.Name) != nil {
 		return errors.New("ALREADY_EXISTS")
 	}
 
@@ -35,15 +35,23 @@ func (b *Board) Players() []Player {
 	return players
 }
 
+func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
+	player := b.getPlayer(name)
 
-func (b *Board) playerExists(player *Player) bool {
-	exists := false
+	from = player.Position
+	to = from + dice[0] + dice[1]
 
+	player.Position = dice[0] + dice[1]
+	return
+}
+
+
+func (b *Board) getPlayer(playerName string) *Player {
 	for _, p := range b.players {
-		if player.Name == p.Name {
-			exists = true
+		if playerName == p.Name {
+			return p
 		}
 	}
 
-	return exists
+	return nil
 }
