@@ -45,3 +45,29 @@ func TestMovePlayerFromStart(t *testing.T) {
 		t.Errorf("Player not moved to 6")
 	}
 }
+
+func TestMoveTwoPlayers(t *testing.T) {
+	board := NewBoard()
+	board.AddPlayer("Pippo")
+	board.AddPlayer("Pluto")
+	board.MovePlayer("Pippo", [2]int{4, 2})
+
+	from, to := board.MovePlayer("Pippo", [2]int{1, 1})
+	from_two, to_two := board.MovePlayer("Pluto", [2]int{1, 2})
+
+	if from != 6 {
+		t.Errorf("Player not moved from 6")
+	}
+
+	if to != 8 {
+		t.Errorf("Player not moved to 8")
+	}
+
+	if from_two != 0 {
+		t.Errorf("Player not moved from 0")
+	}
+
+	if to_two != 3 {
+		t.Errorf("Player not moved to 3")
+	}
+}
