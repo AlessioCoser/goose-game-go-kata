@@ -1,0 +1,1 @@
+package goose_game_go_kata
