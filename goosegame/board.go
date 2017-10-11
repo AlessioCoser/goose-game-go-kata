@@ -44,15 +44,13 @@ func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
 		return player.Position, player.Position
 	}
 
-	from = player.Position
-
-	player.Position = from + dice[0] + dice[1]
+	from, to = player.MoveBy(dice)
 
 	if b.wins(player) {
 		b.endGame()
 	}
 
-	return from, player.Position
+	return from, to
 }
 
 func (b *Board) WinnerIs() *Player {
