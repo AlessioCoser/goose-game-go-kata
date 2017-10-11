@@ -94,3 +94,26 @@ func TestWinner(t *testing.T) {
 		t.Errorf("Player Pippo not won")
 	}
 }
+
+
+func TestFirstWinner(t *testing.T) {
+	board := NewBoard()
+	board.AddPlayer("Pippo")
+	board.AddPlayer("Winner")
+	board.MovePlayer("Pippo", [2]int{60, 1})
+
+	_, to_winner := board.MovePlayer("Winner", [2]int{60, 3})
+	_, to_pippo := board.MovePlayer("Pippo", [2]int{1, 1})
+
+	if to_winner != 63 {
+		t.Errorf("Player Winner not moved to 63, instead moved to %d", to_winner)
+	}
+
+	if to_pippo != 61 {
+		t.Errorf("Player Pippo not moved to 61, instead moved to %d", to_pippo)
+	}
+
+	if board.WinnerIs().Name != "Winner" {
+		t.Errorf("Player Pippo should not win")
+	}
+}
