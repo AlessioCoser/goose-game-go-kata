@@ -5,13 +5,14 @@ import (
 )
 
 func NewBoard() *Board {
-	board := &Board{ make([]*Player, 0, 10) }
+	board := &Board{ make([]*Player, 0, 10), 63 }
 
 	return board
 }
 
 type Board struct {
 	players []*Player
+	numSpaces int
 }
 
 func (b *Board) AddPlayer (name string) error {
@@ -41,10 +42,19 @@ func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
 	from = player.Position
 	to = from + dice[0] + dice[1]
 
-	player.Position = dice[0] + dice[1]
-	return
+	player.Position = to
+
+	return from, to
 }
 
+func (b *Board) WinnerIs() *Player {
+	for _, player := range b.players {
+		if player.Position == b.numSpaces {
+			return player
+		}
+	}
+	return nil
+}
 
 func (b *Board) getPlayer(playerName string) *Player {
 	for _, p := range b.players {
