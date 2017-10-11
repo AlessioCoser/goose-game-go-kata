@@ -8,16 +8,8 @@ func TestAddPlayer(t *testing.T) {
 	board := NewBoard()
 	err := board.AddPlayer("Pippo")
 
-	if err != nil {
-		t.Errorf("%q", err)
-	}
-
-	actualPlayers := board.Players()
-	expectedPlayer := Player{"Pippo", 0}
-
-	if actualPlayers[0] != expectedPlayer {
-		t.Errorf("Player not added")
-	}
+	Equal(t, nil, err)
+	Equal(t, Player{"Pippo", 0}, board.Players()[0])
 }
 
 func TestDuplicatePlayer(t *testing.T) {
@@ -26,9 +18,7 @@ func TestDuplicatePlayer(t *testing.T) {
 
 	err := board.AddPlayer("Pippo")
 
-	if err == nil {
-		t.Errorf("no error suppled")
-	}
+	NotEqual(t, nil, err)
 }
 
 func TestMovePlayerFromStart(t *testing.T) {
@@ -37,13 +27,8 @@ func TestMovePlayerFromStart(t *testing.T) {
 
 	from, to := board.MovePlayer("Pippo", [2]int{4, 2})
 
-	if from != 0 {
-		t.Errorf("Player not moved from Start")
-	}
-
-	if to != 6 {
-		t.Errorf("Player not moved to 6")
-	}
+	Equal(t, 0, from)
+	Equal(t, 6, to)
 }
 
 func TestMoveTwoPlayers(t *testing.T) {
@@ -55,44 +40,21 @@ func TestMoveTwoPlayers(t *testing.T) {
 	from, to := board.MovePlayer("Pippo", [2]int{1, 1})
 	from_two, to_two := board.MovePlayer("Pluto", [2]int{1, 2})
 
-	if from != 6 {
-		t.Errorf("Player not moved from 6")
-	}
-
-	if to != 8 {
-		t.Errorf("Player not moved to 8")
-	}
-
-	if from_two != 0 {
-		t.Errorf("Player not moved from 0")
-	}
-
-	if to_two != 3 {
-		t.Errorf("Player not moved to 3")
-	}
+	Equal(t, 6, from)
+	Equal(t, 8, to)
+	Equal(t, 0, from_two)
+	Equal(t, 3, to_two)
 }
 
 func TestWinner(t *testing.T) {
 	board := NewBoard()
 	board.AddPlayer("Pippo")
-	board.MovePlayer("Pippo", [2]int{6, 6})
-	board.MovePlayer("Pippo", [2]int{6, 6})
-	board.MovePlayer("Pippo", [2]int{6, 6})
-	board.MovePlayer("Pippo", [2]int{6, 6})
-	board.MovePlayer("Pippo", [2]int{6, 6})
+	board.MovePlayer("Pippo", [2]int{59, 1})
 	_, to := board.MovePlayer("Pippo", [2]int{1, 2})
 
-	if to != 63 {
-		t.Errorf("Player not moved to 63, instead moved to %d", to)
-	}
-
-	if board.WinnerIs() == nil {
-		t.Errorf("Player not won")
-	}
-
-	if board.WinnerIs().Name != "Pippo" {
-		t.Errorf("Player Pippo not won")
-	}
+	Equal(t, 63, to)
+	NotEqual(t, nil, board.WinnerIs())
+	Equal(t, "Pippo", board.WinnerIs().Name)
 }
 
 
@@ -105,15 +67,19 @@ func TestFirstWinner(t *testing.T) {
 	_, to_winner := board.MovePlayer("Winner", [2]int{60, 3})
 	_, to_pippo := board.MovePlayer("Pippo", [2]int{1, 1})
 
-	if to_winner != 63 {
-		t.Errorf("Player Winner not moved to 63, instead moved to %d", to_winner)
-	}
+	Equal(t, 63, to_winner)
+	Equal(t, 61, to_pippo)
+	Equal(t, "Winner", board.WinnerIs().Name)
+}
 
-	if to_pippo != 61 {
-		t.Errorf("Player Pippo not moved to 61, instead moved to %d", to_pippo)
+func Equal(t *testing.T, expected interface{}, actual interface{}) {
+	if actual != expected {
+		t.Errorf("Expect %q to be %q", actual, expected)
 	}
+}
 
-	if board.WinnerIs().Name != "Winner" {
-		t.Errorf("Player Pippo should not win")
+func NotEqual(t *testing.T, expected interface{}, actual interface{}) {
+	if actual == expected {
+		t.Errorf("Expect %q to be different from %q", actual, expected)
 	}
 }
