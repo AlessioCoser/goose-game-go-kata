@@ -7,20 +7,20 @@ import (
 	"github.com/AlessioCoser/goose-game-go-kata/goosegame/commands"
 )
 
-type Cli struct {
-	board *Board
-}
-
 func NewCli() *Cli {
 	cliGame := &Cli{ NewBoard() }
 
 	return cliGame
 }
 
-func (game *Cli) Handle(text string) string {
-	commands := commands.All()
+type Cli struct {
+	board *Board
+}
 
-	for _, command := range commands {
+func (game *Cli) Handle(text string) string {
+	cmds := commands.All()
+
+	for _, command := range cmds {
 		if command.CanHandle(text) {
 			return command.Execute(text)
 		}
