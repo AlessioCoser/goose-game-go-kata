@@ -54,7 +54,7 @@ func TestWinner(t *testing.T) {
 
 	Equal(t, 63, to)
 	NotEqual(t, nil, board.WinnerIs())
-	Equal(t, "Pippo", board.WinnerIs().Name)
+	Equal(t, "Pippo", board.WinnerIs().GetName())
 }
 
 
@@ -69,7 +69,7 @@ func TestFirstWinner(t *testing.T) {
 
 	Equal(t, 63, to_winner)
 	Equal(t, 61, to_pippo)
-	Equal(t, "Winner", board.WinnerIs().Name)
+	Equal(t, "Winner", board.WinnerIs().GetName())
 }
 
 func Equal(t *testing.T, expected interface{}, actual interface{}) {

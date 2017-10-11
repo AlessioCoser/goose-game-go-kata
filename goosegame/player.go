@@ -6,14 +6,26 @@ func NewPlayer(name string) *Player {
 }
 
 type Player struct {
-	Name string
-	Position int
+	name     string
+	position int
 }
 
 func (p *Player) MoveBy(dice [2]int) (from int, to int) {
-	from = p.Position
+	from = p.position
 
-	p.Position += dice[0] + dice[1]
+	p.position += dice[0] + dice[1]
 
-	return from, p.Position
+	return from, p.position
+}
+
+func (p *Player) IsAt(pos int) bool {
+	return p.position == pos
+}
+
+func (p *Player) GetPosition() int {
+	return p.position
+}
+
+func (p *Player) GetName() string {
+	return p.name
 }

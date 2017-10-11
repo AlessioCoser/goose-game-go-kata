@@ -11,19 +11,19 @@ func NewBoard() *Board {
 }
 
 type Board struct {
-	players []*Player
-	numSpaces int
-	ended bool
+	players     []*Player
+	winPosition int
+	ended       bool
 }
 
 func (b *Board) AddPlayer (name string) error {
-	player := NewPlayer(name)
-
-	if b.getPlayer(player.Name) != nil {
+	if b.getPlayer(name) != nil {
 		return errors.New("ALREADY_EXISTS")
 	}
 
+	player := NewPlayer(name)
 	b.players = append(b.players, player)
+
 	return nil
 }
 
@@ -41,12 +41,12 @@ func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
 	player := b.getPlayer(name)
 
 	if b.ended {
-		return player.Position, player.Position
+		return player.GetPosition(), player.GetPosition()
 	}
 
 	from, to = player.MoveBy(dice)
 
-	if b.wins(player) {
+	if player.IsAt(b.winPosition) {
 		b.endGame()
 	}
 
@@ -55,20 +55,16 @@ func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
 
 func (b *Board) WinnerIs() *Player {
 	for _, player := range b.players {
-		if b.wins(player) {
+		if player.IsAt(b.winPosition) {
 			return player
 		}
 	}
 	return nil
 }
 
-func (b *Board) wins(player *Player) bool {
-	return player.Position == b.numSpaces
-}
-
 func (b *Board) getPlayer(playerName string) *Player {
 	for _, p := range b.players {
-		if playerName == p.Name {
+		if playerName == p.GetName() {
 			return p
 		}
 	}
