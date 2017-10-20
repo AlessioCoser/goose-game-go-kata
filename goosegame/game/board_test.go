@@ -25,36 +25,36 @@ func TestMovePlayerFromStart(t *testing.T) {
 	board := NewBoard()
 	board.AddPlayer("Pippo")
 
-	from, to := board.MovePlayer("Pippo", [2]int{4, 2})
+	move, _ := board.MovePlayer("Pippo", NewDice(4, 2))
 
-	Equal(t, 0, from)
-	Equal(t, 6, to)
+	Equal(t, 0, move.From)
+	Equal(t, 6, move.To)
 }
 
 func TestMoveTwoPlayers(t *testing.T) {
 	board := NewBoard()
 	board.AddPlayer("Pippo")
 	board.AddPlayer("Pluto")
-	board.MovePlayer("Pippo", [2]int{4, 2})
+	board.MovePlayer("Pippo", NewDice(4, 2))
 
-	from, to := board.MovePlayer("Pippo", [2]int{1, 1})
-	from_two, to_two := board.MovePlayer("Pluto", [2]int{1, 2})
+	move, _ := board.MovePlayer("Pippo", NewDice(1, 1))
+	move_two, _ := board.MovePlayer("Pluto", NewDice(1, 2))
 
-	Equal(t, 6, from)
-	Equal(t, 8, to)
-	Equal(t, 0, from_two)
-	Equal(t, 3, to_two)
+	Equal(t, 6, move.From)
+	Equal(t, 8, move.To)
+	Equal(t, 0, move_two.From)
+	Equal(t, 3, move_two.To)
 }
 
 func TestWinner(t *testing.T) {
 	board := NewBoard()
 	board.AddPlayer("Pippo")
-	board.MovePlayer("Pippo", [2]int{59, 1})
-	_, to := board.MovePlayer("Pippo", [2]int{1, 2})
+	board.MovePlayer("Pippo", NewDice(59, 1))
+	move, _ := board.MovePlayer("Pippo", NewDice(1, 2))
 
-	Equal(t, 63, to)
+	Equal(t, 63, move.To)
 	NotEqual(t, nil, board.WinnerIs())
-	Equal(t, "Pippo", board.WinnerIs().GetName())
+	Equal(t, "Pippo", board.WinnerName())
 }
 
 
@@ -62,14 +62,14 @@ func TestFirstWinner(t *testing.T) {
 	board := NewBoard()
 	board.AddPlayer("Pippo")
 	board.AddPlayer("Winner")
-	board.MovePlayer("Pippo", [2]int{60, 1})
+	board.MovePlayer("Pippo", NewDice(60, 1))
 
-	_, to_winner := board.MovePlayer("Winner", [2]int{60, 3})
-	_, to_pippo := board.MovePlayer("Pippo", [2]int{1, 1})
+	move_win, _ := board.MovePlayer("Winner", NewDice(60, 3))
+	_, err := board.MovePlayer("Pippo", NewDice(1, 1))
 
-	Equal(t, 63, to_winner)
-	Equal(t, 61, to_pippo)
-	Equal(t, "Winner", board.WinnerIs().GetName())
+	Equal(t, "GAME_ENDED", err.Error())
+	Equal(t, 63, move_win.To)
+	Equal(t, "Winner", board.WinnerName())
 }
 
 func Equal(t *testing.T, expected interface{}, actual interface{}) {

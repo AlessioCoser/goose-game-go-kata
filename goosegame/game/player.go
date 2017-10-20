@@ -10,12 +10,11 @@ type Player struct {
 	position int
 }
 
-func (p *Player) MoveBy(dice [2]int) (from int, to int) {
-	from = p.position
+func (p *Player) MoveBy(dice *Dice) (*Move) {
+	from := p.position
+	p.position += dice.Score()
 
-	p.position += dice[0] + dice[1]
-
-	return from, p.position
+	return NewMove(from, p.position)
 }
 
 func (p *Player) IsAt(pos int) bool {

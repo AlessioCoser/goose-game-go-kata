@@ -30,18 +30,10 @@ func (Cmd *MovePlayerCmd) Execute(command string) string {
 
 	die1, _ := strconv.Atoi(matches[1])
 	die2, _ := strconv.Atoi(matches[2])
+	dice := game.NewDice(die1, die2)
 
-	from, to := Cmd.board.MovePlayer(matches[0], [2]int{die1, die2})
+	move, _ := Cmd.board.MovePlayer(matches[0], dice)
 
-	fromPos := strconv.Itoa(from)
-	toPos := strconv.Itoa(to)
-
-	if fromPos == "0" {
-		fromPos = "Start"
-	}
-
-	return matches[0] + " rolls " + matches[1] +
-		   ", " + matches[2] + ". " + matches[0] + " moves from " +
-		   fromPos + " to " + toPos
+	return matches[0] + " rolls " + dice.ToString() + ". " + matches[0] + " moves " + move.ToString()
 }
 

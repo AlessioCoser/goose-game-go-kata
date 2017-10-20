@@ -47,20 +47,20 @@ func (b *Board) PlayerNames() []string {
 	return playerNames
 }
 
-func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
+func (b *Board) MovePlayer(name string, dice *Dice) (*Move, error) {
 	player := b.getPlayer(name)
 
 	if b.Ended {
-		return player.GetPosition(), player.GetPosition()
+		return nil, errors.New("GAME_ENDED")
 	}
 
-	from, to = player.MoveBy(dice)
+	move := player.MoveBy(dice)
 
 	if player.IsAt(b.winPosition) {
 		b.endGame()
 	}
 
-	return from, to
+	return move, nil
 }
 
 func (b *Board) WinnerIs() *Player {
@@ -70,6 +70,10 @@ func (b *Board) WinnerIs() *Player {
 		}
 	}
 	return nil
+}
+
+func (b *Board) WinnerName() string {
+	return b.WinnerIs().GetName()
 }
 
 func (b *Board) getPlayer(playerName string) *Player {

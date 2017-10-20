@@ -51,6 +51,6 @@ func TestMoveTwoPlayers(t *testing.T) {
 
 func Equal(t *testing.T, expected interface{}, actual interface{}) {
 	if actual != expected {
-		t.Errorf("Expect %q to be %q", actual, expected)
+		t.Errorf("\nExpect %q \nActual %q", actual, expected)
 	}
 }
