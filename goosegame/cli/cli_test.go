@@ -19,6 +19,14 @@ func TestAddTwoPlayersCommand(t *testing.T) {
 	Equal(t, "players: Pippo, Pluto", response)
 }
 
+func TestAddAlreadyExistingPlayerCommand(t *testing.T) {
+	game := NewCli()
+	_ = game.handle("add player Pippo")
+	response := game.handle("add player Pippo")
+
+	Equal(t, "Pippo: already existing player", response)
+}
+
 func Equal(t *testing.T, expected interface{}, actual interface{}) {
 	if actual != expected {
 		t.Errorf("Expect %q to be %q", actual, expected)

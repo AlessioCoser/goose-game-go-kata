@@ -28,7 +28,11 @@ func (Cmd *AddPlayerCmd) CanHandle(command string) bool {
 func (Cmd *AddPlayerCmd) Execute(command string) string {
 	matches, _ := regexp.Matches(Cmd.matchPattern, command)
 
-	_ = Cmd.board.AddPlayer(matches[0])
+	err := Cmd.board.AddPlayer(matches[0])
+
+	if err != nil {
+		return matches[0] + ": already existing player"
+	}
 
 	return "players: " + strings.Join(Cmd.board.PlayerNames(),", ")
 }
