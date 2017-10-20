@@ -33,8 +33,12 @@ func (Cmd *MovePlayerCmd) Execute(command string) string {
 	die2, _ := strconv.Atoi(matches[2])
 	dice := game.NewDice(die1, die2)
 
-	move, _ := Cmd.board.MovePlayer(playerName, dice)
+	move, err := Cmd.board.MovePlayer(playerName, dice)
 	winnerName := Cmd.board.WinnerName()
+
+	if err != nil {
+		return err.Error()
+	}
 
 	moveMessage := playerName + " rolls " + dice.ToString() + ". " + playerName + " moves " + move.ToString()
 
