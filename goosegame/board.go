@@ -37,6 +37,16 @@ func (b *Board) Players() []Player {
 	return players
 }
 
+func (b *Board) PlayerNames() []string {
+	playerNames := make([]string, len(b.players))
+
+	for index, player := range b.players {
+		playerNames[index] = player.name
+	}
+
+	return playerNames
+}
+
 func (b *Board) MovePlayer(name string, dice [2]int) (from int, to int) {
 	player := b.getPlayer(name)
 

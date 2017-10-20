@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/AlessioCoser/goose-game-go-kata/goosegame"
+	"github.com/AlessioCoser/goose-game-go-kata/cligoosegame"
 )
 
 func main() {
-	gooseGame := goosegame.NewCli()
+	gooseGame := cligoosegame.NewCli()
 	gooseGame.Start()
 }
