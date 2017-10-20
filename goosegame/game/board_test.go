@@ -9,7 +9,7 @@ func TestAddPlayer(t *testing.T) {
 	err := board.AddPlayer("Pippo")
 
 	Equal(t, nil, err)
-	Equal(t, Player{"Pippo", 0}, board.Players()[0])
+	Equal(t, "Pippo", board.PlayerNames()[0])
 }
 
 func TestDuplicatePlayer(t *testing.T) {
@@ -53,7 +53,6 @@ func TestWinner(t *testing.T) {
 	move, _ := board.MovePlayer("Pippo", NewDice(1, 2))
 
 	Equal(t, 63, move.To)
-	NotEqual(t, nil, board.WinnerIs())
 	Equal(t, "Pippo", board.WinnerName())
 }
 

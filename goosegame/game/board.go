@@ -27,21 +27,11 @@ func (b *Board) AddPlayer (name string) error {
 	return nil
 }
 
-func (b *Board) Players() []Player {
-	players := make([]Player, len(b.players))
-
-	for index, player := range b.players {
-		players[index] = *player
-	}
-
-	return players
-}
-
 func (b *Board) PlayerNames() []string {
 	playerNames := make([]string, len(b.players))
 
 	for index, player := range b.players {
-		playerNames[index] = player.name
+		playerNames[index] = player.GetName()
 	}
 
 	return playerNames
@@ -63,23 +53,23 @@ func (b *Board) MovePlayer(name string, dice *Dice) (*Move, error) {
 	return move, nil
 }
 
-func (b *Board) WinnerIs() *Player {
+func (b *Board) WinnerName() string {
+	winner := b.winnerIs()
+
+	if winner == nil {
+		return ""
+	}
+
+	return b.winnerIs().GetName()
+}
+
+func (b *Board) winnerIs() *Player {
 	for _, player := range b.players {
 		if player.IsAt(b.winPosition) {
 			return player
 		}
 	}
 	return nil
-}
-
-func (b *Board) WinnerName() string {
-	winner := b.WinnerIs()
-
-	if winner == nil {
-		return ""
-	}
-
-	return b.WinnerIs().GetName()
 }
 
 func (b *Board) getPlayer(playerName string) *Player {
