@@ -1,4 +1,4 @@
-package goosegame
+package game
 
 func NewPlayer(name string) *Player {
 	player := &Player{name, 0}

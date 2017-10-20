@@ -1,20 +1,20 @@
-package cligoosegame
+package cli
 
 import (
 	"testing"
 )
 
 func TestAddPlayerCommand(t *testing.T) {
-	cli := NewCli()
-	response := cli.handle("add player Pippo")
+	game := NewCli()
+	response := game.handle("add player Pippo")
 
 	Equal(t, "players: Pippo", response)
 }
 
 func TestAddTwoPlayersCommand(t *testing.T) {
-	cli := NewCli()
-	_ = cli.handle("add player Pippo")
-	response := cli.handle("add player Pluto")
+	game := NewCli()
+	_ = game.handle("add player Pippo")
+	response := game.handle("add player Pluto")
 
 	Equal(t, "players: Pippo, Pluto", response)
 }

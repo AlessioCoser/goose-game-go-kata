@@ -3,11 +3,11 @@ package commands
 import (
 	"strings"
 
-	"github.com/AlessioCoser/goose-game-go-kata/goosegame"
+	"github.com/AlessioCoser/goose-game-go-kata/goosegame/game"
 	"github.com/AlessioCoser/goose-game-go-kata/regexp"
 )
 
-func NewAddPlayerCmd(b *goosegame.Board) *AddPlayerCmd{
+func NewAddPlayerCmd(b *game.Board) *AddPlayerCmd{
 	return &AddPlayerCmd{
 		board: b,
 		matchPattern: "add player ([a-zA-Z0-9]+)$",
@@ -15,7 +15,7 @@ func NewAddPlayerCmd(b *goosegame.Board) *AddPlayerCmd{
 }
 
 type AddPlayerCmd struct {
-	board *goosegame.Board
+	board *game.Board
 	matchPattern string
 }
 

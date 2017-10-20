@@ -1,20 +1,20 @@
-package cligoosegame
+package cli
 
 import (
 	"bufio"
 	"fmt"
 	"os"
 
-	"github.com/AlessioCoser/goose-game-go-kata/cligoosegame/commands"
-	"github.com/AlessioCoser/goose-game-go-kata/goosegame"
+	"github.com/AlessioCoser/goose-game-go-kata/goosegame/cli/commands"
+	"github.com/AlessioCoser/goose-game-go-kata/goosegame/game"
 )
 
 func NewCli() *Cli {
-	return &Cli{goosegame.NewBoard()}
+	return &Cli{game.NewBoard()}
 }
 
 type Cli struct {
-	board *goosegame.Board
+	board *game.Board
 }
 
 func (game *Cli) handle(text string) string {
