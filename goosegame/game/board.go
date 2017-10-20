@@ -73,6 +73,12 @@ func (b *Board) WinnerIs() *Player {
 }
 
 func (b *Board) WinnerName() string {
+	winner := b.WinnerIs()
+
+	if winner == nil {
+		return ""
+	}
+
 	return b.WinnerIs().GetName()
 }
 

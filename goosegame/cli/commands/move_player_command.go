@@ -28,12 +28,20 @@ func (Cmd *MovePlayerCmd) CanHandle(command string) bool {
 func (Cmd *MovePlayerCmd) Execute(command string) string {
 	matches, _ := regexp.Matches(Cmd.matchPattern, command)
 
+	playerName := matches[0]
 	die1, _ := strconv.Atoi(matches[1])
 	die2, _ := strconv.Atoi(matches[2])
 	dice := game.NewDice(die1, die2)
 
-	move, _ := Cmd.board.MovePlayer(matches[0], dice)
+	move, _ := Cmd.board.MovePlayer(playerName, dice)
+	winnerName := Cmd.board.WinnerName()
 
-	return matches[0] + " rolls " + dice.ToString() + ". " + matches[0] + " moves " + move.ToString()
+	moveMessage := playerName + " rolls " + dice.ToString() + ". " + playerName + " moves " + move.ToString()
+
+	if winnerName == playerName {
+		return moveMessage + ". " + playerName + " Wins!!"
+	}
+
+	return moveMessage
 }
 

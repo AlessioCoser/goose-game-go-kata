@@ -49,6 +49,20 @@ func TestMoveTwoPlayers(t *testing.T) {
 	Equal(t, "Pluto rolls 4, 6. Pluto moves from 2 to 12", response)
 }
 
+func TestPlayerWin(t *testing.T) {
+	game := NewCli()
+	_ = game.handle("add player Pippo")
+	_ = game.handle("move Pippo 6, 6")
+	_ = game.handle("move Pippo 6, 6")
+	_ = game.handle("move Pippo 6, 6")
+	_ = game.handle("move Pippo 6, 6")
+	_ = game.handle("move Pippo 6, 6")
+
+	response := game.handle("move Pippo 1, 2")
+
+	Equal(t, "Pippo rolls 1, 2. Pippo moves from 60 to 63. Pippo Wins!!", response)
+}
+
 func Equal(t *testing.T, expected interface{}, actual interface{}) {
 	if actual != expected {
 		t.Errorf("\nExpect %q \nActual %q", actual, expected)
