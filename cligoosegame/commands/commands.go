@@ -10,6 +10,6 @@ type Command interface {
 func All(b *goosegame.Board) []Command {
 	return []Command{
 		NewAddPlayerCmd(b),
-		&BaseCmd{},
+		NewBaseCmd(),
 	}
 }

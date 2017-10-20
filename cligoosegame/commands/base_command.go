@@ -1,5 +1,9 @@
 package commands
 
+func NewBaseCmd() *BaseCmd{
+	return &BaseCmd{}
+}
+
 type BaseCmd struct {}
 
 func (c *BaseCmd) CanHandle(command string) bool {
