@@ -9,6 +9,7 @@ type Command interface {
 
 func All(b *game.Board) []Command {
 	return []Command{
+		NewMovePlayerCmd(b),
 		NewAddPlayerCmd(b),
 		NewBaseCmd(),
 	}
